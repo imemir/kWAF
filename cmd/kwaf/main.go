@@ -13,6 +13,15 @@ func main() {
 
 	// create engine and add a sample rule
 	eng := waf.NewEngine()
+	// allow requests from trusted sources using substring matching
+	allowRule, err := waf.NewRuleWithType("trusted", "trusted", "allow", "substring")
+	if err != nil {
+		fmt.Println("invalid allow rule:", err)
+		return
+	}
+	eng.AddRule(allowRule)
+
+	// simple block rule detecting dangerous SQL statements
 	rule, err := waf.NewRule("sql-injection", `(?i)drop table`, "block")
 	if err != nil {
 		fmt.Println("invalid rule pattern:", err)
