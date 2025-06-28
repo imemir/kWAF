@@ -11,4 +11,12 @@ This repository contains the basic skeleton for the kWAF project. The main compo
 - `api/`: custom resource definitions for security rules
 - `controllers/`: reconciliation logic for Kubernetes resources
 
+The repository now includes a minimal rule engine that supports simple pattern-based blocking. You can test it with the CLI:
+
+```bash
+# example usage
+kwaf "DROP TABLE users"
+```
+
 This structure is intended as a starting point and will be expanded with full functionality in future commits.
+
