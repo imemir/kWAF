@@ -1,5 +1,7 @@
 package waf
 
+import "strings"
+
 // Engine represents the core firewall engine
 // This minimal implementation evaluates inputs against a set of rules.
 type Engine struct {
@@ -20,8 +22,23 @@ func (e *Engine) AddRule(r *Rule) {
 // input should be blocked.
 func (e *Engine) Evaluate(input string) bool {
 	for _, r := range e.rules {
-		if r.Pattern.MatchString(input) && r.Action == "block" {
-			return true
+		var match bool
+		switch r.Type {
+		case "substring":
+			match = strings.Contains(input, r.Pattern)
+		default: // regex
+			if r.re != nil {
+				match = r.re.MatchString(input)
+			}
+		}
+
+		if match {
+			switch r.Action {
+			case "allow":
+				return false
+			case "block":
+				return true
+			}
 		}
 	}
 	return false
