@@ -20,3 +20,16 @@ kwaf "DROP TABLE users"
 
 This structure is intended as a starting point and will be expanded with full functionality in future commits.
 
+## Project goals
+
+- Deliver a lightweight Web Application Firewall that runs natively on Kubernetes.
+- Provide declarative security policies via Custom Resource Definitions.
+- Offer a simple command line tool for local rule testing and debugging.
+
+## Upcoming tasks
+
+- Extend the rule engine with additional pattern types and actions.
+- Expose rule and rule set CRDs through the controller manager.
+- Ship example manifests and Helm charts for quick deployment.
+- Establish continuous integration with unit and integration tests.
+
