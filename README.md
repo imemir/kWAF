@@ -18,6 +18,33 @@ The repository now includes a minimal rule engine that supports regex and substr
 kwaf "DROP TABLE users"
 ```
 
+## Kubernetes integration
+
+The project ships a minimal controller built with controller-runtime. It watches
+`Rule` custom resources and updates an in-memory WAF engine.
+
+To deploy the controller inside a cluster:
+
+```bash
+go run ./cmd/manager
+```
+
+Create a simple `Rule` CRD instance:
+
+```yaml
+apiVersion: kwaf.io/v1alpha1
+kind: Rule
+metadata:
+  name: block-sql
+spec:
+  id: block-sql
+  pattern: "(?i)drop table"
+  action: block
+```
+
+Apply it with `kubectl apply -f rule.yaml`. Any matching requests evaluated by
+the controller will then be blocked.
+
 This structure is intended as a starting point and will be expanded with full functionality in future commits.
 
 ## Project goals
