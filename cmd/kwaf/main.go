@@ -19,7 +19,7 @@ func main() {
 		fmt.Println("invalid allow rule:", err)
 		return
 	}
-	eng.AddRule(allowRule)
+	eng.UpsertRule(allowRule)
 
 	// simple block rule detecting dangerous SQL statements
 	rule, err := waf.NewRule("sql-injection", `(?i)drop table`, "block")
@@ -27,7 +27,7 @@ func main() {
 		fmt.Println("invalid rule pattern:", err)
 		return
 	}
-	eng.AddRule(rule)
+	eng.UpsertRule(rule)
 
 	if len(os.Args) < 2 {
 		fmt.Println("usage: kwaf <input>")

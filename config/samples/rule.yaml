@@ -1,0 +1,8 @@
+apiVersion: kwaf.io/v1alpha1
+kind: Rule
+metadata:
+  name: block-sql
+spec:
+  id: block-sql
+  pattern: "(?i)drop table"
+  action: block

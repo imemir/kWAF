@@ -5,17 +5,24 @@ import "strings"
 // Engine represents the core firewall engine
 // This minimal implementation evaluates inputs against a set of rules.
 type Engine struct {
-	rules []*Rule
+	rules map[string]*Rule
 }
 
 // NewEngine creates a new firewall engine
 func NewEngine() *Engine {
-	return &Engine{}
+	return &Engine{rules: make(map[string]*Rule)}
 }
 
-// AddRule adds a compiled rule to the engine.
-func (e *Engine) AddRule(r *Rule) {
-	e.rules = append(e.rules, r)
+// UpsertRule adds or updates a compiled rule in the engine.
+func (e *Engine) UpsertRule(r *Rule) {
+	if e.rules == nil {
+		e.rules = make(map[string]*Rule)
+	}
+	e.rules[r.ID] = r
+}
+
+func (e *Engine) DeleteRule(id string) {
+	delete(e.rules, id)
 }
 
 // Evaluate checks the input against the loaded rules and returns true if the
